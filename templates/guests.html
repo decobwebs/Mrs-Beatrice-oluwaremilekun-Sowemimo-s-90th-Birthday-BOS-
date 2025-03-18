@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest List</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #1c1c1c;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-regular {
+            background: #333;
+            color: #fff;
+        }
+        .btn-vip {
+            background: #555;
+            color: #fff;
+        }
+        .guest-list {
+            text-align: left;
+            margin-top: 20px;
+            background: #222;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guest List</h1>
+        <button class="btn btn-regular" onclick="showRegular()">Regular Guests</button>
+        <button class="btn btn-vip" onclick="showVIP()">VIP Guests</button>
+        
+        <div id="regular-list" class="guest-list">
+            <h2>Regular Guests</h2>
+            {% for guest in regular_guests %}
+                <p>{{ guest.name }} - {{ guest.email }} - {{ guest.phone }} - Attending: {{ "Yes" if guest.attending else "No" }}</p>
+            {% endfor %}
+        </div>
+        
+        <div id="vip-list" class="guest-list" style="display: none;">
+            <h2>VIP Guests</h2>
+            {% for guest in vip_guests %}
+                <p>{{ guest.name }} - {{ guest.email }} - {{ guest.phone }} - Attending: {{ "Yes" if guest.attending else "No" }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function showRegular() {
+            document.getElementById('regular-list').style.display = 'block';
+            document.getElementById('vip-list').style.display = 'none';
+        }
+        function showVIP() {
+            document.getElementById('regular-list').style.display = 'none';
+            document.getElementById('vip-list').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

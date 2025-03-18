@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom Dark Theme Styles -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .btn-custom {
+            background-color: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+        }
+        .card-title {
+            color: #bb86fc;
+        }
+        .alert {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            color: #ffffff;
+        }
+        .alert-danger {
+            background-color: #b00020;
+            border-color: #b00020;
+        }
+        .alert-success {
+            background-color: #00c853;
+            border-color: #00c853;
+        }
+        .alert-info {
+            background-color: #03dac6;
+            border-color: #03dac6;
+        }
+        .danger-zone {
+            background-color: #ff4444;
+            border-color: #ff4444;
+        }
+        .form-control {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: #1e1e1e;
+            border-color: #bb86fc;
+            box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+        }
+        h2, h3, h4, h5 {
+            color: #bb86fc;
+        }
+        a {
+            color: #bb86fc;
+        }
+        a:hover {
+            color: #d0bcff;
+        }
+        canvas {
+            background-color: #1e1e1e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Page Title -->
+        <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Back Button -->
+        <div class="text-center mb-4">
+            <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Back to Home</a>
+        </div>
+
+        <!-- Admin-Specific Buttons -->
+        {% if role == 'Admin' %}
+            <div class="row text-center mb-3">
+                <div class="col-md-12">
+                    <a href="/create_moderator" class="btn btn-success me-2"><i class="fas fa-user-plus"></i> Create Moderator</a>
+                    <a href="/generate_report" class="btn btn-info"><i class="fas fa-download"></i> Download PDF Report</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Create New Guest Type Button -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <a href="{{ url_for('create_guest_type') }}" class="btn btn-primary">Create New Guest Type</a>
+            </div>
+        </div>
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+                {% for gt in guest_types %}
+                    <a href="{{ url_for('export_guest_list', type_name=gt.name) }}" class="btn btn-custom">
+                        <i class="fas fa-file-download icon"></i> Download {{ gt.name }} Guest List
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Display All Guest Types -->
+        <div class="row mb-4">
+            {% for gt in guest_types %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ gt.name }} Guests</h5>
+                            <p class="card-text">{{ stats[gt.name] }}</p>
+                            <a href="{{ url_for('view_guests_by_type', type_name=gt.name) }}" class="btn btn-sm btn-info">View List</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Registration Breakdown Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3><i class="fas fa-chart-line"></i> Registration Breakdown</h3>
+            </div>
+        </div>
+
+        <!-- Daily, Weekly, Monthly Registration Stats -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Guests Today</h5>
+                        <p class="card-text">{{ guests_today }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Guests This Week</h5>
+                        <p class="card-text">{{ guests_this_week }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Guests This Month</h5>
+                        <p class="card-text">{{ guests_this_month }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Trends Chart -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h4>Registration Trends (Last 7 Days)</h4>
+                <canvas id="registrationTrendsChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Guest Type Distribution Chart -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h4>Guest Type Distribution</h4>
+                <canvas id="guestTypeChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Danger Zone -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card danger-zone text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h5>
+                    <p class="card-text">Clear all guest types and guests. This action is irreversible.</p>
+                    <form id="clear-all-form" action="{{ url_for('clear_all_guests') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="delete_password" class="form-label">Enter Secret Password:</label>
+                            <input type="password" class="form-control" id="delete_password" name="delete_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-light btn-sm"><i class="fas fa-trash-alt"></i> Clear All Guests</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('clear-all-form').addEventListener('submit', function (e) {
+            if (!confirm("Are you sure you want to delete all guest types and guests? This action cannot be undone.")) {
+                e.preventDefault(); // Prevent form submission
+            }
+        });
+    </script>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Registration Trends Chart
+        const registrationLabels = {{ registration_labels | tojson }};
+        const registrationData = {{ registration_trends | tojson }};
+
+        const registrationCtx = document.getElementById('registrationTrendsChart').getContext('2d');
+        new Chart(registrationCtx, {
+            type: 'line',
+            data: {
+                labels: registrationLabels,
+                datasets: [{
+                    label: 'Registrations',
+                    data: registrationData,
+                    borderColor: '#00ff7f',
+                    backgroundColor: 'rgba(0, 255, 127, 0.2)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: true, text: 'Registration Trends' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Guest Type Distribution Chart
+        const guestTypeLabels = {{ guest_type_labels | tojson }};
+        const guestTypeCounts = {{ guest_type_counts | tojson }};
+        const guestTypeColors = {{ guest_type_colors | tojson }};
+
+        const guestTypeCtx = document.getElementById('guestTypeChart').getContext('2d');
+        new Chart(guestTypeCtx, {
+            type: 'bar',
+            data: {
+                labels: guestTypeLabels,
+                datasets: [{
+                    label: 'Number of Guests',
+                    data: guestTypeCounts,
+                    backgroundColor: guestTypeColors,
+                    borderColor: '#000000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: true, text: 'Guest Type Distribution' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
