@@ -92,9 +92,16 @@
 					<span>A Milestone Celebration</span>
 					<h2>90th Birthday Celebration</h2>
 					<div class="event-col">
-						<i class="icon-clock" style="color: #f15196;"></i>
-						<span>10:00 AM</span>
-						<span>6:00 PM</span>
+					    <i class="icon-clock" style="color: #f15196;"></i>
+					    {% if guest_type.name == 'VIP' %}
+					        <span>03:00 PM Till</span>
+					        <span>Mama Calls</span>
+					    {% elif guest_type.name == 'Regular' %}
+					        <span>01:00 PM Till</span>
+					        <span>05:00 PM</span>
+					    {% else %}
+					        <span>Timing Not Available</span>
+					    {% endif %}
 					</div>
 					<div class="event-col">
 						<i class="icon-calendar" style="color: #f15196;"></i>
@@ -139,7 +146,9 @@
 					{% endwith %}
 
 					<!-- RSVP Form -->
-					<h2>{{ guest_type.name }} RSVP Form</h2>
+					<h2 style="font-family: 'Great Vibes', cursive; font-size: 48px; color: #f15196; text-align: center; margin-top: 20px; margin-bottom: 20px; letter-spacing: 2px; font-weight: normal; border-bottom: 3px solid #f15196; padding-bottom: 10px;">
+						RSVP Form
+					</h2>
 					<form class="form-inline" action="{{ url_for('register_guest', type_name=guest_type.name) }}" method="POST">
 					    <div class="col-md-4 col-sm-4">
 					        <div class="form-group">

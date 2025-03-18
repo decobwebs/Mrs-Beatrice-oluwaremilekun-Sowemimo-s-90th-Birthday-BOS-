@@ -108,7 +108,7 @@ def logout():
 # Route to display the Regular Guest RSVP form
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('login.html')
 
 # Route to display the VIP Guest RSVP form
 @app.route('/vip')
@@ -519,7 +519,13 @@ def delete_guest_type(type_id):
 
 @app.route('/rsvp/<type_name>', methods=['GET'])
 def rsvp_form(type_name):
+    # Fetch the guest type based on the type_name parameter
     guest_type = GuestType.query.filter_by(name=type_name).first_or_404()
+
+    # Ensure the guest type is either VIP or Regular
+
+
+    # Pass the guest_type object to the template
     return render_template('index.html', guest_type=guest_type)
 
 
