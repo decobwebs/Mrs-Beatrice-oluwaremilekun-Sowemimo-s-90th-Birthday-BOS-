@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ guest_type }} Guests List</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-custom {
+            background: #2a2a2a;
+            color: #ffffff;
+            border: 2px solid #444;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-custom:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+        }
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        thead {
+            background: #222;
+            color: white;
+        }
+        tbody tr {
+            background: #1e1e1e;
+            transition: background 0.3s;
+        }
+        tbody tr:hover {
+            background: #292929;
+        }
+        td, th {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .icon {
+            margin-right: 8px;
+            color: #bbb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><i class="fas fa-users icon"></i> {{ guest_type }} Guests List</h2>
+
+        <!-- Search Bar -->
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+                <form action="{{ url_for('search_guests') }}" method="GET" class="form-inline">
+                    <div class="input-group">
+                        <input type="text" name="query" class="form-control" placeholder="Search by name or email" required>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-custom"><i class="fas fa-search icon"></i> Search</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-custom"><i class="fas fa-tachometer-alt icon"></i> View Dashboard</a>
+                <a href="{{ url_for('index') }}" class="btn btn-custom"><i class="fas fa-home icon"></i> Back to Home</a>
+            </div>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="row text-center" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+                <a href="{{ url_for('export_guest_list', type_name=guest_type) }}" class="btn btn-custom">
+                    <i class="fas fa-file-download icon"></i> Download {{ guest_type }} Guest List
+                </a>
+            </div>
+        </div>
+
+        <!-- Guest Table -->
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th><i class="fas fa-user icon"></i>Name</th>
+                    <th><i class="fas fa-envelope icon"></i>Email</th>
+                    <th><i class="fas fa-phone icon"></i>Phone</th>
+                    <th><i class="fas fa-clock icon"></i>Timestamp</th>
+                    <th><i class="fas fa-cog icon"></i>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if guests %}
+                    {% for guest in guests %}
+                        <tr>
+                            <td><i class="fas fa-user icon"></i>{{ guest.name }}</td>
+                            <td><i class="fas fa-envelope icon"></i>{{ guest.email }}</td>
+                            <td><i class="fas fa-phone icon"></i>{{ guest.phone }}</td>
+                            <td><i class="fas fa-clock icon"></i>{{ guest.timestamp.strftime('%Y-%m-%d') }}</td>
+                            <!-- Tagging Form -->
+                            <td>
+                                <form action="{{ url_for('tag_guest', guest_id=guest.id) }}" method="POST">
+                                    <select name="new_type" class="form-control" required>
+                                        {% for gt in guest_types %}
+                                            <option value="{{ gt.name }}">{{ gt.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Update Type</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No {{ guest_type }} guests found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
