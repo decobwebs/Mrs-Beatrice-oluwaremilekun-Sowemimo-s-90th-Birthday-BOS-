@@ -113,15 +113,27 @@ def index():
 # Route to display the VIP Guest RSVP form
 
 
+
+@app.route('/vip')
+def vip():
+    return render_template('vip.html')
+
+
 # Route to handle regular guest form submissions
 @app.route('/register/regular', methods=['POST'])
 def register_regular():
     return register_guest('regular')
 
 # Route to handle VIP guest form submissions
+
 #@app.route('/vip_register', methods=['POST'])
 #def vip_register():
 #    return register_guest('vip')
+
+@app.route('/vip_register', methods=['POST'])
+def vip_register():
+    return register_guest('vip')
+
 
 # Helper function to handle guest registration
 def register_guest(guest_type):

@@ -18,3 +18,6 @@ venv/
 
 # Ignore temporary files
 *.tmp
+*.tmp# created by virtualenv automatically
+*
+
