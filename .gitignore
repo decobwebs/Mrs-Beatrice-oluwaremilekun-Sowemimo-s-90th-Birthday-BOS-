@@ -17,5 +17,4 @@ venv/
 *.log
 
 # Ignore temporary files
-*.tmp# created by virtualenv automatically
-*
+*.tmp
