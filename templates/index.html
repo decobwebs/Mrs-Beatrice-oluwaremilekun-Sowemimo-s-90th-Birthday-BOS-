@@ -72,8 +72,7 @@
 							<br>
 							<br>
 							<p>
-								<a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Beatrice's+90th+Birthday&dates=20250614T100000/20250614T180000&details=Join+us+to+celebrate+the+90th+birthday+of+Beatrice!&location=Ikeja,+Lagos,+Nigeria&sf=true&output=xml"
-								   class="btn btn-default btn-sm">
+								<a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Beatrice's+90th+Birthday&dates={{ event_start_time }}/{{ event_end_time }}&details={{ event_description | urlencode }}&location=Ikeja,+Lagos,+Nigeria&sf=true&output=xml"class="btn btn-default btn-sm">
 								   Save the date
 								</a>
 							</p>
@@ -287,6 +286,9 @@
 			        </p>
 			        <p>
 			            <small class="block">08155114430</small>
+			        </p>
+					<p>
+			            <small class="block">cobwebb784@gmail.com</small>
 			        </p>
 			        <ul class="fh5co-social-icons">
 			            <li>

@@ -533,10 +533,27 @@ def rsvp_form(type_name):
     guest_type = GuestType.query.filter_by(name=type_name).first_or_404()
 
     # Ensure the guest type is either VIP or Regular
+    if guest_type.name not in ['Vips', 'Regular']:
+        return "Invalid guest type. Only VIP and Regular are supported.", 400
 
+    # Define event details based on guest type
+    if guest_type.name == 'Vips':
+        event_start_time = '20250614T150000'  # 3:00 PM
+        event_end_time = '20250614T235900'    # Mama Calls (open-ended)
+        event_description = "Join us to celebrate the 90th birthday of Beatrice as a VIP guest!"
+    elif guest_type.name == 'Regular':
+        event_start_time = '20250614T130000'  # 1:00 PM
+        event_end_time = '20250614T170000'    # 5:00 PM
+        event_description = "Join us to celebrate the 90th birthday of Beatrice as a Regular guest!"
 
-    # Pass the guest_type object to the template
-    return render_template('index.html', guest_type=guest_type)
+    # Pass the guest_type object and event details to the template
+    return render_template(
+        'index.html',
+        guest_type=guest_type,
+        event_start_time=event_start_time,
+        event_end_time=event_end_time,
+        event_description=event_description
+    )
 
 
 @app.route('/register/<type_name>', methods=['POST'])
