@@ -12,7 +12,8 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/static/static/css/all.min.css">
+	<!--< link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="static/css/animate.css">
@@ -224,29 +225,74 @@
 	<footer id="fh5co-footer" role="contentinfo">
 		<div class="container">
 
+			<!-- Include Font Awesome for icons -->
+
+
+			<style>
+			    .copyright {
+			        font-size: 18px; /* Increased text size */
+			        font-family: 'Poppins', sans-serif; /* Modern font */
+			        color: inherit; /* Maintain original color */
+			        padding: 20px 0;
+			        text-align: center;
+			    }
+
+			    .copyright a {
+			        font-weight: bold;
+			        text-decoration: none;
+			        color: inherit;
+			    }
+
+			    .fh5co-social-icons {
+			        list-style: none;
+			        padding: 0;
+			        margin-top: 10px;
+			        display: flex;
+			        justify-content: center;
+			        gap: 20px;
+			    }
+
+			    .fh5co-social-icons li {
+			        display: inline-block;
+			    }
+
+			    .fh5co-social-icons a {
+			        font-size: 24px; /* Increased icon size */
+			        color: inherit;
+			        transition: color 0.3s ease;
+			    }
+
+			    .fh5co-social-icons a:hover {
+			        color: #25D366; /* WhatsApp green for WhatsApp, default for others */
+			    }
+			</style>
+
 			<div class="row copyright">
-				<div class="col-md-12 text-center">
-					<p>
-
-						<small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">Cobweb</a></small>
-					</p>
-					<p>
-						<ul class="fh5co-social-icons">
-							<li><a href="mailto:cobwebb784@gmail.com"><i class="icon-mail"></i></a></li>
-
-							<li>
-								<a href="https://wa.me/2348155114430" target="_blank">
-									<i class="fa-brands fa-whatsapp"></i>
-								</a>
-							</li>
-
-
-
-
-						</ul>
-					</p>
-				</div>
+			    <div class="col-md-12 text-center">
+			        <p>
+			            <small class="block">
+			                Designed by <a href="mailto:cobwebb784@gmail.com" target="_blank">Owambe RSVP</a>
+			            </small>
+			        </p>
+			        <p>
+			            <small class="block">08155114430</small>
+			        </p>
+			        <ul class="fh5co-social-icons">
+			            <li>
+			                <a href="mailto:cobwebb784@gmail.com" target="_blank">
+			                    <i class="fas fa-envelope"></i> <!-- Fixed Email Icon -->
+			                </a>
+			            </li>
+			            <li>
+			                <a href="https://wa.me/2348155114430" target="_blank">
+			                    <i class="fab fa-whatsapp"></i> <!-- Fixed WhatsApp Icon -->
+			                </a>
+			            </li>
+			        </ul>
+			    </div>
 			</div>
+
+
 
 		</div>
 	</footer>
