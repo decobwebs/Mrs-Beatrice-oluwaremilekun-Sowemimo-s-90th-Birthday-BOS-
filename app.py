@@ -134,6 +134,10 @@ def register_regular():
 def vip_register():
     return register_guest('vip')
 
+@app.route('/asobie_details')
+def asobie_details():
+    return render_template('asoebi.html')
+
 
 # Helper function to handle guest registration
 def register_guest(guest_type):
