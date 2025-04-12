@@ -18,6 +18,10 @@ venv/
 
 # Ignore temporary files
 *.tmp
-*.tmp# created by virtualenv automatically
-*
 
+# Allow templates and static folders
+!templates/
+!templates/**
+
+!static/
+!static/**
