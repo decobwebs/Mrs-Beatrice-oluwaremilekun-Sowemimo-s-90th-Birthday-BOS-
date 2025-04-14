@@ -1,0 +1,43 @@
+;
+; Archive created at 2025-04-13 08:53:58
+;     dbname: db3_rvw3
+;     TOC Entries: 33
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 16.8 (Debian 16.8-1.pgdg120+1)
+;     Dumped by pg_dump version: 17.2
+;
+;
+; Selected TOC Entries:
+;
+5; 2615 2200 SCHEMA - public db3_rvw3_user
+221; 1259 16593 TABLE public alembic_version db3_rvw3_user
+220; 1259 16558 TABLE public guest db3_rvw3_user
+219; 1259 16557 SEQUENCE public guest_id_seq db3_rvw3_user
+3395; 0 0 SEQUENCE OWNED BY public guest_id_seq db3_rvw3_user
+216; 1259 16540 TABLE public guest_type db3_rvw3_user
+215; 1259 16539 SEQUENCE public guest_type_id_seq db3_rvw3_user
+3396; 0 0 SEQUENCE OWNED BY public guest_type_id_seq db3_rvw3_user
+218; 1259 16549 TABLE public user db3_rvw3_user
+217; 1259 16548 SEQUENCE public user_id_seq db3_rvw3_user
+3397; 0 0 SEQUENCE OWNED BY public user_id_seq db3_rvw3_user
+3223; 2604 16561 DEFAULT public guest id db3_rvw3_user
+3221; 2604 16543 DEFAULT public guest_type id db3_rvw3_user
+3222; 2604 16552 DEFAULT public user id db3_rvw3_user
+3387; 0 16593 TABLE DATA public alembic_version db3_rvw3_user
+3386; 0 16558 TABLE DATA public guest db3_rvw3_user
+3382; 0 16540 TABLE DATA public guest_type db3_rvw3_user
+3384; 0 16549 TABLE DATA public user db3_rvw3_user
+3398; 0 0 SEQUENCE SET public guest_id_seq db3_rvw3_user
+3399; 0 0 SEQUENCE SET public guest_type_id_seq db3_rvw3_user
+3400; 0 0 SEQUENCE SET public user_id_seq db3_rvw3_user
+3234; 2606 16566 CONSTRAINT public guest guest_email_key db3_rvw3_user
+3236; 2606 16564 CONSTRAINT public guest guest_pkey db3_rvw3_user
+3226; 2606 16547 CONSTRAINT public guest_type guest_type_name_key db3_rvw3_user
+3228; 2606 16545 CONSTRAINT public guest_type guest_type_pkey db3_rvw3_user
+3230; 2606 16554 CONSTRAINT public user user_pkey db3_rvw3_user
+3232; 2606 16556 CONSTRAINT public user user_username_key db3_rvw3_user
+3237; 2606 16567 FK CONSTRAINT public guest guest_guest_type_id_fkey db3_rvw3_user
