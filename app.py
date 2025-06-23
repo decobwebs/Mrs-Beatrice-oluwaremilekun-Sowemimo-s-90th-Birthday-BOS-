@@ -397,7 +397,7 @@ def guest_list(type_name):
 
 
 @app.route('/dashboard')
-@login_required  # Requires login
+ # Requires login
 def dashboard():
     now = datetime.utcnow()
 
@@ -538,14 +538,15 @@ def rsvp_form(type_name):
 
     # Ensure the guest type is either VIP or Regular
     if guest_type.name not in ['Vips', 'Regular']:
-        return "Invalid guest type. Only VIP and Regular are supported.", 400
+        pass
+        #return "Invalid guest type. Only VIP and Regular are supported.", 400
 
     # Define event details based on guest type
-    if guest_type.name == 'Vips':
+    if guest_type.name == 'Nysc':
         event_start_time = '20250614T150000'  # 3:00 PM
         event_end_time = '20250614T235900'    # Mama Calls (open-ended)
         event_description = "Join us to celebrate the 90th birthday of Beatrice as a VIP guest!"
-    elif guest_type.name == 'Regular':
+    elif guest_type.name == 'Mula':
         event_start_time = '20250614T130000'  # 1:00 PM
         event_end_time = '20250614T170000'    # 5:00 PM
         event_description = "Join us to celebrate the 90th birthday of Beatrice as a Regular guest!"
